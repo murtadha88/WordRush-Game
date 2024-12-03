@@ -6,6 +6,6 @@ categories.forEach(category => {
         
         localStorage.setItem('selectedCategory', selectedCategory);
 
-        window.location.href = "../gamePage.html";
+        window.location.href = "/gamePage.html";
     });
 });
