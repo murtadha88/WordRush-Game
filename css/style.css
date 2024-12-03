@@ -1,13 +1,113 @@
 @import url('https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@100;300;400;900&display=swap');
 
-body {
+/* homePage: */
+.home-page {
     background-color: #21C2C5;
     font-family: "Londrina Solid", system-ui;
-    font-style: normal;
+    min-height: 100dvh;
+    margin: 0;
+    text-align: center;
+}
+
+.logo {
+    width: 300px;
+    height: 300px;
+    border-radius: 15px;
+}
+
+#sub-title {
+    font-size: 34px;
+    font-weight: bold;
+    color: #305c5d;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+p {
+    font-size: 20px;
+    line-height: 1.5;
+    color: black;
+    text-align: justify;
+    margin: 0 auto;
+    width: 50%;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+}
+
+.start-button {
+    background-color: #1e3f40;
+    color: #21C2C5;
+    padding: 15px 25px;
+    font-size: 28px;
+    font-weight: bold;
+    border: 2px solid #305c5d;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.start-button:hover {
+    background-color: #2c5b5d;
+    transform: scale(1.05);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* categoriesPage: */
+.categories-page {
+    background-color: #21C2C5;
+    font-family: "Londrina Solid", system-ui;
+    min-height: 100dvh;
+    margin: 0;
+}
+
+.categories-container {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.category {
+    border: 1px solid rgb(0, 0, 0);
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 10px 10px 15px 5px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+    border-radius: 15px;
+    width: 23%;
+    height: 500px;
+    background-color: #386F70;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.category:hover {
+    transform: scale(1.05);
+    box-shadow: 12px 12px 17px 7px rgba(0, 0, 0, 0.6);
+}
+
+.category-image {
+    width: 80%;
+    height: 300px;
+    border: 2px solid #305c5d;
+    border-radius: 15px;
+}
+
+/* gamePage: */
+.game-page {
+    background-color: #21C2C5;
+    font-family: "Londrina Solid", system-ui;
     min-height: 100dvh;
     margin: 0;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
 }
 
@@ -21,17 +121,17 @@ body {
     letter-spacing: 3px;
 }
 
-.game-container{
+.game-container {
     border: 1px solid rgb(0, 0, 0);
     text-align: center;
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-    box-shadow: 10px 10px 15px 5px rgba(0, 0, 0, 0.5);;
+    box-shadow: 10px 10px 15px 5px rgba(0, 0, 0, 0.5);
     margin: 0 auto;
     border-radius: 10px;
-    width: 50%;
+    width: 25%;
     height: 500px;
     background-color: #386F70;
     color: white;
@@ -46,7 +146,7 @@ body {
     color: white;
 }
 
-.count{
+.count {
     font-size: 25px;
 }
 
@@ -75,11 +175,11 @@ body {
 }
 
 .letter {
-    font-size: 48px; 
-    font-weight: bold; 
+    font-size: 48px;
+    font-weight: bold;
     color: white;
-    background-color:  #334C4D; 
-    border: 2px solid white; 
+    background-color: #334C4D;
+    border: 2px solid white;
     border-radius: 8px;
     padding: 10px 15px;
     text-align: center;
@@ -100,14 +200,17 @@ body {
 
 .word-input {
     width: 90%;
-    padding: 10px; 
-    font-size: 16px; 
+    padding: 10px;
+    font-size: 16px;
     border: 2px solid #ffffff;
     border-radius: 5px;
     outline: none;
     color: #334C4D;
 }
 
+.wrong-input {
+    border: 2px solid red;
+}
 
 .submit-button {
     background-color: #21C2C5;
@@ -127,7 +230,7 @@ body {
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
 }
 
-.reset{
+.reset {
     background-color: #359C9E;
     color: white;
     padding: 5px 10px;
