@@ -372,7 +372,7 @@ function game() {
 
                 setTimeout(function() {
                     alert("Congratulations! You completed this Category, try anther category.");
-                    window.location.href = "../categoriesPage.html";
+                    window.location.href = "categoriesPage.html";
                 }, 500);
             }
             else {
