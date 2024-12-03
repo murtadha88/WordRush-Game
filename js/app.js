@@ -222,8 +222,6 @@ const foodsCategoryData = {
     foods3: foods3,
 };
 
-
-
 let level = 1;
 let letters = [];
 let shuffledLetters = [];
@@ -232,13 +230,12 @@ let selectedCategory;
 let selectedData;
 let correctWord = "";
 
-const correctSound = new Audio('/audio/correct.mp3');
-const wrongSound = new Audio('/audio/wrong.mp3');
-const winSound = new Audio('/audio/win.mp3');
-const crowdSound = new Audio('/audio/crowd.mp3');
-const loseSound = new Audio('/audio/lose.mp3');
-const timesUpSound = new Audio('/audio/timesUp.mp3');
-
+const correctSound = new Audio("audio/correct.mp3");
+const wrongSound = new Audio('audio/wrong.mp3');
+const winSound = new Audio('audio/win.mp3');
+const crowdSound = new Audio('audio/crowd.mp3');
+const loseSound = new Audio('audio/lose.mp3');
+const timesUpSound = new Audio('audio/timesUp.mp3');
 
 const place = document.querySelector(".letters");
 const submit = document.querySelector(".submit-button");
@@ -326,11 +323,10 @@ function randomWord() {
     const randomIndex = Math.floor(Math.random() * selectedData.length);
     const selectedWord = selectedData[randomIndex];
 
-    
     for (let key in selectedWord) {
         letters.push(selectedWord[key]);
     }
-    console.log(letters);
+
     for(let i=0; i<letters.length; i++) {
         correctWord = correctWord+letters[i];
     }
@@ -363,7 +359,6 @@ function randomWord() {
 randomWord();
 
 function game() {
-    console.log(correctWord);
     if (userWord.value.toUpperCase() === correctWord) {
         wordcount++;
         count.textContent = `${wordcount}/5`;
