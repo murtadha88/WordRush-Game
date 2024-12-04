@@ -349,7 +349,7 @@ function randomWord() {
 
         isDuplicate = prevWords.includes(correctWord);
     }
-    console.log(correctWord);
+
     prevWords.push(correctWord);
     displaingLetters();
 }
@@ -395,20 +395,20 @@ function game() {
 
             const levelCompletedButton = document.createElement("button");
             levelCompletedButton.classList.add("levelCompletedButton");
-            
+
             if (level === 3) {
                 if (!soundPlayed) {
                     crowdSound.loop = false;
                     crowdSound.play();
                     soundPlayed = true;
-                }  
+                }
                 levelCompletedButton.textContent = "Congratulations! You completed this Category, TRY anther Category!";
                 place.appendChild(levelCompletedButton);
 
                 levelCompletedButton.addEventListener("click", () => {
                     soundPlayed = false;
                     window.location.href = "categoriesPage.html";
-                });    
+                });
             }
             else {
                 level++;
@@ -426,13 +426,13 @@ function game() {
                     spanLevel.textContent = `Level ${level}`;
                     render();
                     getCategory();
-                });    
+                });
             }
         }
         else {
             randomWord();
         }
-        
+
         userWord.classList.remove("wrong-input");
     }
     else {
