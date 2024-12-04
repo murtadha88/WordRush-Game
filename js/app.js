@@ -27,12 +27,9 @@ const animals2 = [
     { 1: "S", 2: "W", 3: "A", 4: "N" },
     { 1: "D", 2: "E", 3: "E", 4: "R" },
     { 1: "C", 2: "O", 3: "L", 4: "T" },
-    { 1: "K", 2: "I", 3: "T", 4: "E" },
     { 1: "M", 2: "O", 3: "L", 4: "E" },
     { 1: "P", 2: "O", 3: "N", 4: "Y" },
-    { 1: "C", 2: "U", 3: "B", 4: "S" },
     { 1: "F", 2: "I", 3: "S", 4: "H" },
-    { 1: "C", 2: "O", 3: "R", 4: "M" },
     { 1: "H", 2: "A", 3: "R", 4: "E" },
     { 1: "D", 2: "O", 3: "V", 4: "E" },
     { 1: "L", 2: "A", 3: "R", 4: "K" },
@@ -86,7 +83,7 @@ const names1 = [
     { 1: "F", 2: "A", 3: "Y" },
     { 1: "M", 2: "I", 3: "A" },
     { 1: "N", 2: "I", 3: "A" },
-    { 1: "M", 2: "A", 3: "I" } 
+    { 1: "M", 2: "A", 3: "I" }
 ];
 
 const names2 = [
@@ -225,17 +222,20 @@ const foodsCategoryData = {
 let level = 1;
 let letters = [];
 let shuffledLetters = [];
+let prevWords = [];
 let wordcount = 0;
 let selectedCategory;
 let selectedData;
 let correctWord = "";
 
+let soundPlayed = false;
 const correctSound = new Audio("audio/correct.mp3");
 const wrongSound = new Audio('audio/wrong.mp3');
 const winSound = new Audio('audio/win.mp3');
 const crowdSound = new Audio('audio/crowd.mp3');
 const loseSound = new Audio('audio/lose.mp3');
 const timesUpSound = new Audio('audio/timesUp.mp3');
+
 
 const place = document.querySelector(".letters");
 const submit = document.querySelector(".submit-button");
@@ -247,16 +247,16 @@ const spanLevel = document.querySelector(".level");
 
 function getCategory() {
     selectedCategory = localStorage.getItem('selectedCategory') + level;
-    if(selectedCategory === "animals"+level) {
+    if (selectedCategory === "animals" + level) {
         selectedData = animalsCategoryData[selectedCategory];
     }
-    else if(selectedCategory === "names"+level) {
+    else if (selectedCategory === "names" + level) {
         selectedData = namesCategoryData[selectedCategory];
     }
     else {
         selectedData = foodsCategoryData[selectedCategory];
     }
-    
+
 }
 
 function init() {
@@ -267,6 +267,7 @@ function init() {
 
 function render() {
     letters = [];
+    prevWords = [];
     wordcount = 0;
     userWord.value = "";
     userWord.classList.remove("wrong-input");
@@ -281,7 +282,7 @@ function render() {
 }
 
 function startTimer() {
-    timeLeft = 60;
+    timeLeft = 90;
     timerInterval = setInterval(updateTimer, 1000);
 }
 startTimer();
@@ -289,13 +290,24 @@ startTimer();
 function updateTimer() {
     if (timeLeft <= 0) {
         timerDisplay.textContent = "0";
-        loseSound.play();
         timesUpSound.pause();
 
-        setTimeout(function() {
-            alert("Time's up! You didn't complete the level. Don't give up, try again!");
+        if (!soundPlayed) {
+            loseSound.loop = false;
+            loseSound.play();
+            soundPlayed = true;
+        }
+
+        init();
+        const timesUpButton = document.createElement("button");
+        timesUpButton.classList.add("times-up");
+        timesUpButton.textContent = "Time's up! You didn't complete the level. Don't Give Up, TRY again!";
+        place.appendChild(timesUpButton);
+
+        timesUpButton.addEventListener("click", () => {
+            soundPlayed = false;
             render();
-        }, 700);
+        })
     }
     else {
         if (timeLeft <= 10) {
@@ -320,25 +332,37 @@ function shuffleArray(array) {
 
 function randomWord() {
     getCategory();
-    const randomIndex = Math.floor(Math.random() * selectedData.length);
-    const selectedWord = selectedData[randomIndex];
 
-    for (let key in selectedWord) {
-        letters.push(selectedWord[key]);
+    isDuplicate = true;
+    while (isDuplicate) {
+        const randomIndex = Math.floor(Math.random() * selectedData.length);
+        const selectedWord = selectedData[randomIndex];
+        init();
+
+        for (let key in selectedWord) {
+            letters.push(selectedWord[key]);
+        }
+
+        for (let i = 0; i < letters.length; i++) {
+            correctWord = correctWord + letters[i];
+        }
+
+        isDuplicate = prevWords.includes(correctWord);
     }
+    console.log(correctWord);
+    prevWords.push(correctWord);
+    displaingLetters();
+}
 
-    for(let i=0; i<letters.length; i++) {
-        correctWord = correctWord+letters[i];
-    }
-
+function displaingLetters() {
     shuffledLetters = [...letters];
     shuffledLetters = shuffleArray(shuffledLetters);
 
     for (let i = 0; i < 1000; i++) {
         let stringShuffledLetters = "";
 
-        for(let k=0; k<letters.length; k++) {
-            stringShuffledLetters = stringShuffledLetters+shuffledLetters[k];
+        for (let k = 0; k < letters.length; k++) {
+            stringShuffledLetters = stringShuffledLetters + shuffledLetters[k];
         }
 
         if (correctWord !== stringShuffledLetters) {
@@ -364,28 +388,51 @@ function game() {
         count.textContent = `${wordcount}/5`;
         userWord.value = "";
         correctSound.play();
-        init();
-        randomWord();
-        if (wordcount === 5) {
-            if(level === 3) {
-                crowdSound.play();
 
-                setTimeout(function() {
-                    alert("Congratulations! You completed this Category, try anther category.");
+        if (wordcount === 5) {
+            init();
+            clearInterval(timerInterval);
+
+            const levelCompletedButton = document.createElement("button");
+            levelCompletedButton.classList.add("levelCompletedButton");
+            
+            if (level === 3) {
+                if (!soundPlayed) {
+                    crowdSound.loop = false;
+                    crowdSound.play();
+                    soundPlayed = true;
+                }  
+                levelCompletedButton.textContent = "Congratulations! You completed this Category, TRY anther Category!";
+                place.appendChild(levelCompletedButton);
+
+                levelCompletedButton.addEventListener("click", () => {
+                    soundPlayed = false;
                     window.location.href = "categoriesPage.html";
-                }, 500);
+                });    
             }
             else {
-                winSound.play();
                 level++;
-                setTimeout(function() {
-                    alert("Congratulations! You completed this level.");
+                if (!soundPlayed) {
+                    winSound.loop = false;
+                    winSound.play();
+                    soundPlayed = true;
+                }
+
+                levelCompletedButton.textContent = "Congratulations! You completed this level, GO to next Level!";
+                place.appendChild(levelCompletedButton);
+
+                levelCompletedButton.addEventListener("click", () => {
+                    soundPlayed = false;
                     spanLevel.textContent = `Level ${level}`;
                     render();
                     getCategory();
-                }, 500);   
-            }   
+                });    
+            }
         }
+        else {
+            randomWord();
+        }
+        
         userWord.classList.remove("wrong-input");
     }
     else {
